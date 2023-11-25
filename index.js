@@ -74,7 +74,12 @@ let users=[];
               //send message
               socket.on('send_message',(data)=>{
                      console.log("[+] sending msg-->",data)
-                    socket.to(data.id).emit('receive_message',data)
+                     socket.to(data.id).emit('receive_message',data)
+              })
+              //liked message
+              socket.on("liked_message",(data)=>{
+                     console.log("liked msg-->",data)
+                     socket.to(data.id).emit("receive_message",data)
               })
           })
 const PORT=9000;
