@@ -26,7 +26,7 @@ let users=[];
             // Set up a timer to emit a socket event every 5 seconds
             const emitInterval = setInterval(() => {
                 // Emit the event to the connected
-                console.log("Emitting data[+]") 
+                // console.log("Emitting data[+]") 
                 io.emit('userConnected', users);
             }, 10000);
               //new user connection
@@ -34,6 +34,8 @@ let users=[];
                 const isUserPresent=io.sockets.sockets.get(id);
                 if(isUserPresent)
                 {
+                    isUserPresent.username=username;
+                    isUserPresent.bg=bg;
                     let isChanged=false;
                     let empArray=[];
                     users.map((single)=>{
@@ -63,6 +65,16 @@ let users=[];
                 console.log("user--.",users)
                 clearInterval(emitInterval)
                 io.emit('userConnected', users);
+              })
+              //create room
+              socket.on("join_room",(id)=>{
+                console.log("Joining into a room id->",id)  
+                socket.join(id)
+              })
+              //send message
+              socket.on('send_message',(data)=>{
+                     console.log("[+] sending msg-->",data)
+                    socket.to(data.id).emit('receive_message',data)
               })
           })
 const PORT=9000;
