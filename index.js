@@ -81,6 +81,11 @@ let users=[];
                      console.log("liked msg-->",data)
                      socket.to(data.id).emit("receive_message",data)
               })
+              //delete message
+              socket.on("delete_message",(data)=>{
+                  console.log("Deleted msg-->",data)
+                  socket.to(data.id).emit("receive_deleted_message",data);
+              })
           })
 const PORT=9000;
 server.listen(PORT,()=>console.log("Socket Server running on port: ",PORT))
