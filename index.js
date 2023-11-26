@@ -21,15 +21,9 @@ let users=[];
     //on connecting to the server
        //create a user
           io.on('connection',(socket)=>{
-              // emit list of users every 60 sec
-                    const emitInterval = setInterval(() => {
-                        // Emit the event to the connected
-                        // console.log("Emitting data[+]") 
-                        io.emit('userConnected', users);
-                    }, 10000);
                     //new user connection
-                        console.log("New client connected[+] ",socket.id)
-                        socket.on('setNewUser',({id,username,bg})=>{
+                    socket.on('setNewUser',({id,username,bg})=>{
+                            console.log("New client connected[+] ",socket.id,"-->",username)
                             const isUserPresent=io.sockets.sockets.get(id);
                             if(isUserPresent)
                             {
@@ -57,7 +51,6 @@ let users=[];
                     //remove the user
                         socket.on('disconnect',()=>{
                             users=users.filter((item)=>item.id!=socket.id)
-                            clearInterval(emitInterval)
                             io.emit('userConnected', users);
                         })
                     //create room
