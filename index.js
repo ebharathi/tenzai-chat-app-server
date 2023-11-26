@@ -12,8 +12,11 @@ const server=http.createServer(app);
 const io=new Server(server,{
     cors:{
         origin:'*',
-        method:['GET','POST']
-    }
+        method:['GET','POST'],
+        transports: ['websocket', 'polling'],
+        credentials: true
+    },
+    allowEIO3: true
 })
 //this arr used to store all the users currently in the server
 let users=[];
